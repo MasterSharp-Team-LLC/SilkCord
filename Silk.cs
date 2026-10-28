@@ -36,6 +36,9 @@ namespace Silk_Client
         private DiscordRpcClient? discordClient;
         private bool isRpcStarted = false;
 
+        public Color UiColor { get; private set; } = Color.Teal;
+        public bool IsClassicTheme { get; private set; }
+
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool AllocConsole();
 
@@ -96,16 +99,63 @@ namespace Silk_Client
             TitlePanel.MouseDown += TitlePanel_MouseDown;
 
             ApplyDiscordRPC.Text = "Start";
+            TopMost = true;
 
-            this.Opacity = 0.95;
-            this.Load += (s, e) => Blur();
+            ApplyUiSettings(UiColor, false);
+            this.Load += (s, e) => ApplyWindowTheme();
+        }
+
+        public void ApplyUiSettings(Color color, bool classicTheme)
+        {
+            UiColor = color;
+            IsClassicTheme = classicTheme;
+
+            ApplyColorToControls(this);
+            ApplyWindowTheme();
+        }
+
+        private void ApplyColorToControls(Control parent)
+        {
+            if (parent is TextBoxBase || parent is ComboBox)
+            {
+                parent.ForeColor = Color.Black;
+                parent.BackColor = Color.White;
+            }
+            else
+            {
+                parent.ForeColor = UiColor;
+            }
+
+            foreach (Control control in parent.Controls)
+            {
+                ApplyColorToControls(control);
+            }
+        }
+
+        private void ApplyWindowTheme()
+        {
+            Opacity = IsClassicTheme ? 1.0 : 0.95;
+
+            if (IsClassicTheme)
+            {
+                SetWindowCompositionAccent(0);
+            }
+            else if (IsHandleCreated)
+            {
+                Blur();
+            }
         }
 
         private void Blur()
         {
+            SetWindowCompositionAccent(3);
+        }
+
+        private void SetWindowCompositionAccent(int accentState)
+        {
             var accent = new AccentPolicy
             {
-                AccentState = 3
+                AccentState = accentState
             };
 
             var accentStructSize = Marshal.SizeOf(accent);
@@ -257,6 +307,17 @@ namespace Silk_Client
                         case "SmallText":
                             SmallTextTextbox.Text = value;
                             break;
+
+                        case "Color":
+                            if (int.TryParse(value, out int argb))
+                            {
+                                ApplyUiSettings(Color.FromArgb(argb), IsClassicTheme);
+                            }
+                            break;
+
+                        case "Theme":
+                            ApplyUiSettings(UiColor, string.Equals(value, "Classic", StringComparison.OrdinalIgnoreCase));
+                            break;
                     }
                 }
             }
@@ -271,46 +332,10 @@ namespace Silk_Client
             }
         }
 
-        private void SaveSettingButton_Click(object sender, EventArgs e)
+        private void SettingButton_Click(object sender, EventArgs e)
         {
-            using SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "CFG files (*.cfg)|*.cfg|All files (*.*)|*.*",
-                DefaultExt = "cfg",
-                AddExtension = true,
-                Title = "Save Configuration File",
-                RestoreDirectory = true,
-                AutoUpgradeEnabled = false
-            };
-
-            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                try
-                {
-                    File.WriteAllLines(saveFileDialog.FileName, new[]
-                    {
-                        $"Application={ApplicationTextbox.Text}",
-                        $"Activity={ActivityComboBox.SelectedItem?.ToString() ?? "Playing"}",
-                        $"Details={DetailsTextbox.Text}",
-                        $"State={StateTextbox.Text}",
-                        $"Large={LargeTextbox.Text}",
-                        $"LargeText={LargeTextTextbox.Text}",
-                        $"Small={SmallTextbox.Text}",
-                        $"SmallText={SmallTextTextbox.Text}"
-                    });
-
-                    MessageBox.Show("Config saved successfully!", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        $"Error while saving configuration:\n\n{ex.Message}",
-                        "Save Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                }
-            }
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Show(this);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)

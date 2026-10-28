@@ -51,7 +51,7 @@
             SmallTextTextbox = new TextBox();
             Image2Text = new Label();
             ApplyDiscordRPC = new Button();
-            SaveSettingButton = new Button();
+            SettingsButton = new Button();
             LoadConfigButton = new Button();
             TitlePanel.SuspendLayout();
             SuspendLayout();
@@ -298,25 +298,25 @@
             ApplyDiscordRPC.UseVisualStyleBackColor = true;
             ApplyDiscordRPC.Click += ApplyDiscordRPC_Click;
             // 
-            // SaveSettingButton
+            // SettingsButton
             // 
-            SaveSettingButton.FlatStyle = FlatStyle.Flat;
-            SaveSettingButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            SaveSettingButton.ForeColor = Color.Teal;
-            SaveSettingButton.Location = new Point(423, 488);
-            SaveSettingButton.Name = "SaveSettingButton";
-            SaveSettingButton.Size = new Size(180, 40);
-            SaveSettingButton.TabIndex = 20;
-            SaveSettingButton.Text = "Save";
-            SaveSettingButton.UseVisualStyleBackColor = true;
-            SaveSettingButton.Click += SaveSettingButton_Click;
+            SettingsButton.FlatStyle = FlatStyle.Flat;
+            SettingsButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            SettingsButton.ForeColor = Color.Teal;
+            SettingsButton.Location = new Point(11, 488);
+            SettingsButton.Name = "SettingsButton";
+            SettingsButton.Size = new Size(180, 40);
+            SettingsButton.TabIndex = 20;
+            SettingsButton.Text = "Settings";
+            SettingsButton.UseVisualStyleBackColor = true;
+            SettingsButton.Click += SettingButton_Click;
             // 
             // LoadConfigButton
             // 
             LoadConfigButton.FlatStyle = FlatStyle.Flat;
             LoadConfigButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LoadConfigButton.ForeColor = Color.Teal;
-            LoadConfigButton.Location = new Point(12, 488);
+            LoadConfigButton.Location = new Point(423, 488);
             LoadConfigButton.Name = "LoadConfigButton";
             LoadConfigButton.Size = new Size(180, 40);
             LoadConfigButton.TabIndex = 21;
@@ -331,7 +331,7 @@
             BackColor = Color.Black;
             ClientSize = new Size(804, 540);
             Controls.Add(LoadConfigButton);
-            Controls.Add(SaveSettingButton);
+            Controls.Add(SettingsButton);
             Controls.Add(ApplyDiscordRPC);
             Controls.Add(SmallTextTextbox);
             Controls.Add(Image2Text);
@@ -369,25 +369,25 @@
         private Button MinimizeButton;
         private Button CloseButton;
         private Label ApplicationLabel;
-        private TextBox ApplicationTextbox;
-        private TextBox DetailsTextbox;
         private Label DetailsLabel;
-        private TextBox StateTextbox;
         private Label StateLabel;
-        private ComboBox ActivityComboBox;
         private Label ActivityTypeLabel;
         private Label ElapsedTimeLabel;
         private CheckBox ElapsedCheckbox;
         private Label Image1Label;
-        private TextBox LargeTextbox;
-        private TextBox SmallTextbox;
         private Label Image2Label;
         private Label Image1Text;
-        private TextBox LargeTextTextbox;
-        private TextBox SmallTextTextbox;
         private Label Image2Text;
         private Button ApplyDiscordRPC;
-        private Button SaveSettingButton;
+        private Button SettingsButton;
         private Button LoadConfigButton;
+        public TextBox ApplicationTextbox;
+        public TextBox DetailsTextbox;
+        public TextBox StateTextbox;
+        public ComboBox ActivityComboBox;
+        public TextBox LargeTextbox;
+        public TextBox SmallTextbox;
+        public TextBox LargeTextTextbox;
+        public TextBox SmallTextTextbox;
     }
 }
