@@ -54,11 +54,11 @@
             TitleMirror.AutoSize = true;
             TitleMirror.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TitleMirror.ForeColor = Color.Teal;
-            TitleMirror.Location = new Point(11, 11);
+            TitleMirror.Location = new Point(160, 12);
             TitleMirror.Name = "TitleMirror";
-            TitleMirror.Size = new Size(89, 18);
+            TitleMirror.Size = new Size(85, 18);
             TitleMirror.TabIndex = 14;
-            TitleMirror.Text = "SILKCORD";
+            TitleMirror.Text = "SETTINGS";
             // 
             // CloseButton
             // 

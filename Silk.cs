@@ -99,7 +99,6 @@ namespace Silk_Client
             TitlePanel.MouseDown += TitlePanel_MouseDown;
 
             ApplyDiscordRPC.Text = "Start";
-            TopMost = true;
 
             ApplyUiSettings(UiColor, false);
             this.Load += (s, e) => ApplyWindowTheme();
