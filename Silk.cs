@@ -38,6 +38,9 @@ namespace Silk_Client
 
         public Color UiColor { get; private set; } = Color.Teal;
         public bool IsClassicTheme { get; private set; }
+        public string UiFontName { get; private set; } = "Segoe UI";
+
+        internal const float ComicSansSizeScale = 0.85f;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool AllocConsole();
@@ -111,6 +114,49 @@ namespace Silk_Client
 
             ApplyColorToControls(this);
             ApplyWindowTheme();
+        }
+
+        public void ApplyUiFont(string fontName)
+        {
+            if (!string.Equals(fontName, "Segoe UI", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(fontName, "Comic Sans MS", StringComparison.OrdinalIgnoreCase))
+            {
+                fontName = "Segoe UI";
+            }
+
+            UiFontName = string.Equals(fontName, "Comic Sans MS", StringComparison.OrdinalIgnoreCase)
+                ? "Comic Sans MS"
+                : "Segoe UI";
+
+            ApplyFontToControls(this);
+        }
+
+        private void ApplyFontToControls(Control parent)
+        {
+            parent.Font = CreateUiFont(parent.Font, UiFontName);
+
+            foreach (Control control in parent.Controls)
+            {
+                ApplyFontToControls(control);
+            }
+        }
+
+        internal static Font CreateUiFont(Font currentFont, string fontName)
+        {
+            bool useComicSans = string.Equals(fontName, "Comic Sans MS", StringComparison.OrdinalIgnoreCase);
+            bool isComicSans = string.Equals(currentFont.Name, "Comic Sans MS", StringComparison.OrdinalIgnoreCase);
+            float size = currentFont.Size;
+
+            if (useComicSans && !isComicSans)
+            {
+                size *= ComicSansSizeScale;
+            }
+            else if (!useComicSans && isComicSans)
+            {
+                size /= ComicSansSizeScale;
+            }
+
+            return new Font(fontName, size, currentFont.Style, currentFont.Unit);
         }
 
         private void ApplyColorToControls(Control parent)
@@ -316,6 +362,10 @@ namespace Silk_Client
 
                         case "Theme":
                             ApplyUiSettings(UiColor, string.Equals(value, "Classic", StringComparison.OrdinalIgnoreCase));
+                            break;
+
+                        case "Font":
+                            ApplyUiFont(value);
                             break;
                     }
                 }

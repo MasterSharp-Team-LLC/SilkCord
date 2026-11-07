@@ -36,6 +36,8 @@
             ThemeButton = new Button();
             ColorLabel = new Label();
             SaveSettingsButton = new Button();
+            FontLabel = new Label();
+            FontButton = new Button();
             TitlePanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -136,12 +138,39 @@
             SaveSettingsButton.UseVisualStyleBackColor = true;
             SaveSettingsButton.Click += SaveSettingsButton_Click;
             // 
+            // FontLabel
+            // 
+            FontLabel.AutoSize = true;
+            FontLabel.BackColor = Color.Transparent;
+            FontLabel.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FontLabel.ForeColor = Color.Teal;
+            FontLabel.Location = new Point(60, 182);
+            FontLabel.Name = "FontLabel";
+            FontLabel.Size = new Size(59, 30);
+            FontLabel.TabIndex = 27;
+            FontLabel.Text = "Font:";
+            // 
+            // FontButton
+            // 
+            FontButton.FlatStyle = FlatStyle.Flat;
+            FontButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FontButton.ForeColor = Color.Teal;
+            FontButton.Location = new Point(131, 180);
+            FontButton.Name = "FontButton";
+            FontButton.Size = new Size(241, 36);
+            FontButton.TabIndex = 26;
+            FontButton.Text = "Font: Segoe UI";
+            FontButton.UseVisualStyleBackColor = true;
+            FontButton.Click += FontButton_Click;
+            // 
             // SettingsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(418, 540);
+            Controls.Add(FontLabel);
+            Controls.Add(FontButton);
             Controls.Add(SaveSettingsButton);
             Controls.Add(ColorLabel);
             Controls.Add(ThemeButton);
@@ -169,5 +198,7 @@
         private Button ThemeButton;
         private Label ColorLabel;
         private Button SaveSettingsButton;
+        private Label FontLabel;
+        private Button FontButton;
     }
 }

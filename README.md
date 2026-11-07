@@ -27,6 +27,7 @@ This makes it useful for users who want a clean, compact custom presence editor 
 - Custom round-trip window styling with a draggable title bar
 - Modern/Classic theme toggle
 - Accent color selection
+- Global font selection between `Segoe UI` and `Comic Sans MS`
 - Save and load configuration files in `.cfg` format
 - Top-most desktop window behavior for quick access while gaming or working
 
@@ -46,7 +47,7 @@ This makes it useful for users who want a clean, compact custom presence editor 
   Main form logic. Handles the Discord RPC client, UI theming, blur effects, draggable title bar, and form actions.
 
 - `SettingsWindow.cs`  
-  Secondary window for user preferences such as accent color and classic vs modern theme.
+	Secondary window for user preferences such as accent color, font, and classic vs modern theme.
 
 - `Silk.Designer.cs`  
   WinForms-generated UI definition for the main application window.
@@ -95,8 +96,9 @@ The application implements a custom Windows composition effect to create a glass
 - a modern translucent theme
 - a classic solid theme
 - a selectable accent color
+- a selectable global font: `Segoe UI` or `Comic Sans MS`
 
-The secondary `SettingsWindow` allows the user to change these preferences and save them.
+The secondary `SettingsWindow` allows the user to change these preferences and save them. The selected font is applied to all controls in both application forms.
 
 ### 5. Save and load configuration
 The app supports loading and saving a configuration file using a simple `key=value` format. For example:
@@ -112,9 +114,10 @@ Small=mic
 SmallText=Discord
 Color=-16777063
 Theme=Modern
+Font=Segoe UI
 ```
 
-This file is saved from the settings window and can be reused to restore the same Discord presence setup.
+The `Font` setting accepts `Segoe UI` or `Comic Sans MS`. This file is saved from the settings window and can be reused to restore the same Discord presence and appearance setup.
 
 ## Requirements
 

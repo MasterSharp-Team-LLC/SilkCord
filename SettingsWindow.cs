@@ -22,6 +22,7 @@ namespace Silk_Client
 
         private Color selectedColor = Color.Teal;
         private bool classicTheme;
+        private string selectedFontName = "Segoe UI";
 
         public SettingsWindow()
         {
@@ -38,10 +39,13 @@ namespace Silk_Client
             {
                 selectedColor = silkForm.UiColor;
                 classicTheme = silkForm.IsClassicTheme;
+                selectedFontName = silkForm.UiFontName;
             }
 
+            ApplySelectedFont();
             ApplySettingsWindowTheme();
             UpdateThemeButtonText();
+            UpdateFontButtonText();
         }
 
         private void ColorButton_Click(object sender, EventArgs e)
@@ -134,7 +138,8 @@ namespace Silk_Client
                         $"Small={SilkForm.SmallTextbox.Text}",
                         $"SmallText={SilkForm.SmallTextTextbox.Text}",
                         $"Color={SilkForm.UiColor.ToArgb()}",
-                        $"Theme={(SilkForm.IsClassicTheme ? "Classic" : "Modern")}"
+                        $"Theme={(SilkForm.IsClassicTheme ? "Classic" : "Modern")}",
+                        $"Font={SilkForm.UiFontName}"
                     });
 
                     MessageBox.Show("Config saved successfully!", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -149,6 +154,37 @@ namespace Silk_Client
                     );
                 }
             }
+        }
+
+        private void FontButton_Click(object sender, EventArgs e)
+        {
+            selectedFontName = string.Equals(selectedFontName, "Segoe UI", StringComparison.OrdinalIgnoreCase)
+                ? "Comic Sans MS"
+                : "Segoe UI";
+
+            ApplySelectedFont();
+            UpdateFontButtonText();
+        }
+
+        private void ApplySelectedFont()
+        {
+            (Owner as Silk)?.ApplyUiFont(selectedFontName);
+            ApplyFontToControls(this);
+        }
+
+        private void ApplyFontToControls(Control parent)
+        {
+            parent.Font = Silk.CreateUiFont(parent.Font, selectedFontName);
+
+            foreach (Control control in parent.Controls)
+            {
+                ApplyFontToControls(control);
+            }
+        }
+
+        private void UpdateFontButtonText()
+        {
+            FontButton.Text = $"Font: {selectedFontName}";
         }
     }
 }
