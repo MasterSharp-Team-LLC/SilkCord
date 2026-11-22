@@ -80,6 +80,7 @@ namespace Silk_Client
         {
             ForeColor = selectedColor;
             FontButton.ForeColor = selectedColor;
+            FontLabel.ForeColor = selectedColor;
             ColorButton.ForeColor = selectedColor;
             ColorButton.BackColor = BackColor;
             ThemeButton.ForeColor = selectedColor;
