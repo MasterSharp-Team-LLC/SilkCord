@@ -179,24 +179,24 @@ namespace Silk_Client
 
         private void ApplyWindowTheme()
         {
-            Opacity = IsClassicTheme ? 1.0 : 0.95;
-
-            if (IsClassicTheme)
-            {
-                SetWindowCompositionAccent(0);
-            }
-            else if (IsHandleCreated)
-            {
-                Blur();
-            }
+            ApplyWindowTheme(this, IsClassicTheme);
         }
 
-        private void Blur()
+        internal static void ApplyWindowTheme(Form form, bool classicTheme)
         {
-            SetWindowCompositionAccent(3);
+            form.Opacity = classicTheme ? 1.0 : 0.95;
+
+            if (classicTheme)
+            {
+                SetWindowCompositionAccent(form, 0);
+            }
+            else if (form.IsHandleCreated)
+            {
+                SetWindowCompositionAccent(form, 3);
+            }
         }
 
-        private void SetWindowCompositionAccent(int accentState)
+        private static void SetWindowCompositionAccent(Form form, int accentState)
         {
             var accent = new AccentPolicy
             {
@@ -214,7 +214,7 @@ namespace Silk_Client
                 Data = accentPtr
             };
 
-            SetWindowCompositionAttribute(this.Handle, ref data);
+            SetWindowCompositionAttribute(form.Handle, ref data);
 
             Marshal.FreeHGlobal(accentPtr);
         }

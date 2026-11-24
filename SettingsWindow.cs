@@ -78,6 +78,7 @@ namespace Silk_Client
 
         private void ApplySettingsWindowTheme()
         {
+            Silk.ApplyWindowTheme(this, classicTheme);
             ForeColor = selectedColor;
             FontButton.ForeColor = selectedColor;
             FontLabel.ForeColor = selectedColor;
