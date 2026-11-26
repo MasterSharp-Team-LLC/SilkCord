@@ -20,9 +20,9 @@ namespace Silk_Client
                     discordProcess = processes[0];
 
                     Console.WriteLine($"\nDiscord detected: Discord.exe | PID: {discordProcess.Id}");
-                    Console.WriteLine("Press ENTER to continue...");
+                    Console.WriteLine("Press any key to continue...");
 
-                    Console.ReadLine();
+                    Console.ReadKey();
 
                     break;
                 }
@@ -41,6 +41,13 @@ namespace Silk_Client
 
             ApplicationConfiguration.Initialize();
             Application.Run(new Silk());
+        }
+
+        internal static bool HasDiscordProcess()
+        {
+            return Process.GetProcessesByName("Discord").Length > 0 ||
+                   Process.GetProcessesByName("DiscordPTB").Length > 0 ||
+                   Process.GetProcessesByName("DiscordCanary").Length > 0;
         }
     }
 }

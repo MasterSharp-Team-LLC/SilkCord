@@ -35,6 +35,8 @@ namespace Silk_Client
 
         private DiscordRpcClient? discordClient;
         private bool isRpcStarted = false;
+        private readonly System.Windows.Forms.Timer discordMonitor;
+        private int discordAbsentChecks;
 
         public Color UiColor { get; private set; } = Color.Teal;
         public bool IsClassicTheme { get; private set; }
@@ -91,6 +93,14 @@ namespace Silk_Client
         {
             InitializeComponent();
 
+            discordMonitor = new System.Windows.Forms.Timer
+            {
+                Interval = 1000
+            };
+            discordMonitor.Tick += DiscordMonitor_Tick;
+            discordMonitor.Start();
+            this.FormClosed += Silk_FormClosed;
+
             SHFILEINFO shinfo = new SHFILEINFO();
             SHGetFileInfo(".exe", 0, out shinfo, (uint)Marshal.SizeOf(shinfo), SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
 
@@ -105,6 +115,30 @@ namespace Silk_Client
 
             ApplyUiSettings(UiColor, false);
             this.Load += (s, e) => ApplyWindowTheme();
+        }
+
+        private void DiscordMonitor_Tick(object? sender, EventArgs e)
+        {
+            if (Program.HasDiscordProcess())
+            {
+                discordAbsentChecks = 0;
+                return;
+            }
+
+            discordAbsentChecks++;
+
+            if (discordAbsentChecks >= 5)
+            {
+                discordMonitor.Stop();
+                Application.Exit();
+            }
+        }
+
+        private void Silk_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            discordMonitor.Stop();
+            discordMonitor.Dispose();
+            discordClient?.Dispose();
         }
 
         public void ApplyUiSettings(Color color, bool classicTheme)
