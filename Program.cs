@@ -7,7 +7,9 @@ namespace Silk_Client
         [STAThread]
         static async Task Main()
         {
+            Console.Title = "SilkCord";
             Process? discordProcess = null;
+            bool waitingMessageShown = false;
 
             while (discordProcess == null)
             {
@@ -25,7 +27,12 @@ namespace Silk_Client
                     break;
                 }
 
-                Console.WriteLine("No Discord found. Open Discord and try again.");
+                if (!waitingMessageShown)
+                {
+                    Console.WriteLine("No Discord found. Open Discord and try again.");
+                    waitingMessageShown = true;
+                }
+
                 await Task.Delay(3000);
             }
 
